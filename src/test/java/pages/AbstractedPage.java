@@ -1,12 +1,17 @@
 package pages;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.log4testng.Logger;
+import tests.BaseTest;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class AbstractedPage {
@@ -14,7 +19,9 @@ public class AbstractedPage {
 
     protected static WebDriver driver;
     private static final int WAIT_FOR_ELEMENT_SECONDS = 10;
+    private static final String SCREENSHOTS_NAME_TPL = "Screenshots/src";
 
+    public static org.apache.log4j.Logger log = Logger.getLogger(BaseTest.class);
 
     public AbstractedPage(WebDriver driver) {
         this.driver = driver;
@@ -76,5 +83,19 @@ public class AbstractedPage {
 
     protected void unhighlightElement(WebDriver driver, WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].style.border='0px'", element);
+    }
+
+    public static void takeScreenshot() {
+
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            String screenshotName = SCREENSHOTS_NAME_TPL + System.nanoTime();
+            File copy = new File(screenshotName + ".png");
+            FileUtils.copyFile(screenshot, copy);
+            log.info("Saved screenshot:" + screenshotName);
+        } catch (IOException e) {
+            log.error(e);
+            System.out.println("Failed to make screenshot " + e.getMessage());
+        }
     }
 }

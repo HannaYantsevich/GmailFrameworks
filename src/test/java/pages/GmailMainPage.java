@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import utils.ScreenShoter;
 
 public class GmailMainPage extends AbstractedPage {
 
@@ -60,7 +59,7 @@ public class GmailMainPage extends AbstractedPage {
     public GmailMainPage enterSearchFieldSpace() {
         waitForElementVisible(searchField);
         highlightElement(driver, searchField);
-        ScreenShoter.takeScreenshot();
+        //takeScreenshot();
         new Actions(driver).sendKeys(Keys.SPACE).build().perform();
         unhighlightElement(driver, searchField);
         return new GmailMainPage(driver);

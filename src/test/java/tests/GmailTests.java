@@ -42,7 +42,8 @@ public class GmailTests extends BaseTest {
                 .fillSubjectInput(EMAIL_SUBJECT)
                 .fillBodyInput(EMAIL_BODY)
                 .saveAndCloseEmail()
-                .clickOnDraftsLink();
+                .clickOnDraftsLink()
+                .takeScreenshot();
 
 
         log.info("Verify that email is saved in drafts");
